@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	{% load static %}
+    <link rel="stylesheet" href="{% static 'quotes/css/main.css' %}" media="screen" title="no title"  charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $("document").ready(function(){
+            $("document").on("click", ".del_button", function(){
+                $(this).slideUp("slow", function(){})
+            })
+        })
+
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <h1 style="text-align: center; border: 1px solid lightgray">Hello {{name}}</h1>
+        <p><a href="/logout" style="float: right;">Logout</a></p>
+        <div class="new_review">
+          <form class="reviewform" action="/add" method="post">
+            {% csrf_token %}
+            <h3>Add a New Quote</h3>
+            <table>
+              <tr>
+                <td>
+                  by:
+                </td>
+                <td>
+                  <input type="text" name="by_person">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Quote:
+                </td>
+                <td>
+                  <textarea name="desc" rows="8" cols="80"></textarea>
+                </td>
+              </tr>
+            </table>
+            <input type="submit" name="submit" value="Create">
+          </form>
+        </div>
+        <div id="user_recent_reviews">
+          <h3 style="padding-top: 20px; margin: 0px auto;">Your Favorites:</h3>
+            {% if users_favs %}
+                <table id="userdash_reviews">
+                    {% for fav in users_favs %}
+                    <tr>
+                        <td>
+                            by:
+                        </td>
+                        <td>
+                            {{fav.by_person}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Quote:
+                        </td>
+                        <td>
+                            {{fav.desc}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="make_small">posted by:</span>
+                        </td>
+                        <td>
+                            <a href="/user/{{fav.posted_by.id}}">{{fav.posted_by.name}}</a>
+                        </td>
+                    </tr>
+                    <form action="/delete/{{fav.id}}" method="POST" name="{{fav.id}}">
+                            {% csrf_token %}
+                        <tr>
+                            <td>
+                                <span class="make_small">option:</span>
+                            </td>
+                            <td>
+                                <p class="del_button"></p>
+                                <input type="submit" value="unfavorite" class="del_button">
+                            </td>
+                        </tr>
+                    </form>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+        <br>
+        <div id="othe_books">
+            <h1>Recently Added Quotes:</h1>
+                {% if other_quotes %}
+                <table id="userdash_non-reviews">
+                    {% for quote in other_quotes %}
+                    <tr>
+                      <td>
+                        by
+                      </td>
+                      <td>
+                        {{quote.by_person}}
+                      </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Quote:
+                        </td>
+                        <td>
+                            {{quote.desc}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            posted by:
+                        </td>
+                        <td>
+                            <a href="/user/{{quote.posted_by.id}}">{{quote.posted_by.name}}</a>
+                        </td>
+                    </tr>
+                    <form action="/addfav/{{quote.id}}" method="POST">
+                            {% csrf_token %}
+                        <tr>
+                            <td>
+                                <span class="make_small">option:</span>
+                            </td>
+                            <td>
+                                <p class="del_button"></p>
+                                <input type="submit" value="favorite!" class="del_button">
+                            </td>
+                        </tr>
+                    </form>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+      </div>
+    </body>
+</html>

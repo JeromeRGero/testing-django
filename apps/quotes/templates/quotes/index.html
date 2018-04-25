@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    {% load static %}
+    <title></title>
+    <link rel="stylesheet" href="{% static 'quotes/css/main.css' %}" media="screen" title="no title"  charset="utf-8">
+  </head>
+  <body>
+    <div id="wrapper">
+        <h1 style="text-align: center; border: 1px solid lightgray">QUOTES.com</h1>
+        <div id="first_wrap">
+            <h3 style="padding-top: 20px;">Register</h3>
+            <form action="/reg" method="POST">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>
+                            <p>Name:</p>
+                        </td>
+                        <td>
+                            <input type="text" name="full_name">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Alias:</p>
+                        </td>
+                        <td>
+                            <input type="text" name="alias">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Email:</p>
+                        </td>
+                        <td>
+                            <input type="text" name="email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Password:</p>
+                        </td>
+                        <td>
+                            <input type="password" name="password">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Confirm:</p>
+                        </td>
+                        <td>
+                            <input type="password" name="confirm">
+                        </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>Birthday:</p>
+                      </td>
+                      <td>
+                        <input type="date" name="birthdate">
+                      </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+                            {{ request.session.reg_errors }}
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <input type="submit" value="Register" name="register" class="mainbutton">
+            </form>
+            <br><br>
+            <h3 style="text-align: center;">OR...</h3><br>
+            <h3>Login</h3>
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>
+                            <p>Email:</p>
+                        </td>
+                        <td>
+                            <input type="text" name="email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Password:</p>
+                        </td>
+                        <td>
+                            <input type="password" name="password">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ reg_error }}</td>
+                    </tr>
+                </table>
+                <br>
+                <input type="submit" value="Login" name="login" class="mainbutton">
+            </form>
+        </div>
+    </div>
+  </body>
+</html>

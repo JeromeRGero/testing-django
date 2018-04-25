@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    {% load static %}
+    <title></title>
+    <link rel="stylesheet" href="{% static 'quotes/css/main.css' %}" media="screen" title="no title"  charset="utf-8">
+  </head>
+  <body>
+    <div id="wrapper">
+      <h1 style="text-align: center; border: 1px solid lightgray">QUOTES.com</h1>
+      <p><a href="/quotes">Dashboard</a><a href="/logout" style="float: right;">Logout</a></p>
+      <h3>All Posts by {{user.name}}:</h3>
+      {% if total != 0 %}
+      <h3>Total Posts: {{total}}</h3>
+      {% for post in user_posts %}
+      <div class="post">
+        <p style="color: red;">{{post.by_person}}</p>
+        <p>{{post.desc}}</p>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </body>
+  </html>
